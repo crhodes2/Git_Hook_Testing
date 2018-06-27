@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+# -*- mode: python -*-
+
+import os
+import sys
+
+print("type something will ya? ")
