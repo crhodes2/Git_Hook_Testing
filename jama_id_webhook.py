@@ -19,8 +19,8 @@ def function():
 
 argu = "typical"
 
-def a_function(arg):
-    print('a {0} function'. format(arg))
+def a_function(ar):
+    print('a {0} function'. format(ar))
 
 if __name__ == "__main__":
     print(function())
