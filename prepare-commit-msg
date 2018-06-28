@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 # -*- mode: python -*-
 
-import os
-import sys
+import sys, os, re
+from subprocess import check_output
 
-print("type something will ya? ")
+# Collect the parameters
+commit_msg_filepath = sys.argv[1]
+
+# Figure out which branch we are on
+branch = check_output(['git', 'symbolic-ref', '--short', 'HEAD']).strip()
+
+
+print("%s %s" %("prepare-commit-msg: on branch", branch))

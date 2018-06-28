@@ -8,6 +8,7 @@ from subprocess import Popen, PIPE
 
 import os
 import sys
+import subprocess
 
 def function():
     print('step1')
