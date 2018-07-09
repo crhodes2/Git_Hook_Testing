@@ -6,14 +6,20 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST', 'PUT'])
 def index():
     if request.method == 'POST':
+        print("Got a post request!")
+        print(request)
+        print("middle!")
         print(request.json)
+        print("end post request!")
         #g = json.loads(request.json)
         print(request.json.get("action"))
-        with open("post.json", "w") as f:
-            f.write(json.dumps(request.json))
+        # with open("post.json", "w") as f:
+        #     f.write(json.dumps(request.json))
         return "You are using POST"
+
     elif request.method == 'PUT':
         return "Why you using PUT"
+
     else:
         return "You are probably using GET!"
 
