@@ -1,0 +1,10 @@
+body {
+    background: lightblue;
+    color: red;
+}
+
+p{
+    font-style: italic;
+    font-family: verdana;
+    font-size: 25px;
+}
