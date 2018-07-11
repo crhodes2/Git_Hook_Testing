@@ -16,7 +16,7 @@ def index():
         print(request)
         print("middle!")
         print('request.json: \t', jsonRequest)
-        print("end post request!")
+        print("end a post request!")
 
         #g = json.loads(request.json)
 

@@ -20,7 +20,7 @@ import sys              # for system
 #######################    Variables    #######################
 
 globe = "global"            # a global variable
-fantastic = "fantastic"     # another global variable
+fantastic = "fantastique"     # another global variable
 
 #######################    Functions    #######################
 
