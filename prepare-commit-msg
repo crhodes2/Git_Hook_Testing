@@ -5,7 +5,7 @@ import sys, os, re
 from subprocess import check_output
 
 # Collect the parameters
-commit_msg_filepath = sys.argv[1]
+# commit_msg_filepath = sys.argv[1]
 
 # Figure out which branch we are on
 branch = check_output(['git', 'symbolic-ref', '--short', 'HEAD']).strip()
