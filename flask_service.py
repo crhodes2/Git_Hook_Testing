@@ -1,20 +1,29 @@
 from flask import Flask, request, render_template
 import json
-
 app = Flask(__name__)
+
+
+#########################################################
+#                GET, POST, AND PUT
+#                  REQUEST METHOD
+
 
 @app.route('/', methods=['GET', 'POST', 'PUT'])
 def index():
+    jsonRequest = request.json
     if request.method == 'POST':
         print("Got a post request!")
         print(request)
         print("middle!")
-        print(request.json)
+        print('request.json: \t', jsonRequest)
         print("end post request!")
+
         #g = json.loads(request.json)
-        print(request.json.get("action"))
+
+        print('form_data: ', request.form.get('api_source_code'))
         # with open("post.json", "w") as f:
         #     f.write(json.dumps(request.json))
+
         return "You are using POST"
 
     elif request.method == 'PUT':
@@ -23,28 +32,27 @@ def index():
     else:
         return "You are probably using GET!"
 
-@app.route('/test')
-def test():
-    if request.method == "POST":
-        return "Thank you for testing me!"
-    else:
-        return "Nothing happens"
 
-@app.route('/pull_request')
-def pull_request():
-    if request.method == 'POST':
-        return "Displaying Pull Request"
-    else:
-        return "nothing happens"
+#########################################################
+#                   PROFILE
 
 @app.route('/profile/<name>')
 def profile(name):
     return render_template("profile.html", name=name)
 
+
+#########################################################
+#                      ID
+
 @app.route('/post/<int:post_id>')
 def show_post(post_id):
 
     return "<h2> Post ID is %s <h2>" % post_id
+
+
+#########################################################
+#                 MAIN PROGRAM
+
 
 if __name__ == "__main__":
   app.run(debug=True, host='127.0.0.1')
