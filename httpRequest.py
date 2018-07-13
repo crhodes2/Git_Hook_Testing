@@ -30,7 +30,7 @@ req = requests.get(url=API_ENDPOINT, data=data)
 jsonRequest = req.json()
 print(jsonRequest)
 
-jsonRequest[0]["first"] = "Galen"
+# jsonRequest[0]["first"] = "Galen"
 
 #sending post request and saving response as response object
 postReq = requests.post(url=API_ENDPOINT, json=json.dumps(jsonRequest))
