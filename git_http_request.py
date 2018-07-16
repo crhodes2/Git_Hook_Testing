@@ -4,11 +4,12 @@ import requests, json, os, re, glob
 
 # defining the api-endpoint
 
-#API_ENDPOINT = "https://api.github.com/repos/crhodes2/platform-samples/statuses/8fc89b210deae0214a5f10087d71ce18bbbe164f"
-API_ENDPOINT = "http://localhost:5000"
+#API_ENDPOINT = "http://localhost:5000"
+API_ENDPOINT = "https://api.github.com/repos/crhodes2/platform-samples/pulls/19"
+TO_POST = "http://localhost:5000/anotherAPI"
 
 # your API key here
-API_KEY = "1234567889abcdefxyz"
+API_KEY = "18a0c4df0757c68f13767c0568e1bfc66169c512"
 
 # your source code here
 source_code = '''
@@ -33,7 +34,7 @@ print(jsonRequest)
 # jsonRequest[0]["first"] = "Galen"
 
 #sending post request and saving response as response object
-postReq = requests.post(url=API_ENDPOINT, json=json.dumps(jsonRequest))
+postReq = requests.post(url=TO_POST, auth=('crhodes2', API_KEY), json=json.dumps(jsonRequest))
 postReq_Info = postReq.text
 print("POST REQUEST IS --> %s" % postReq_Info)
 

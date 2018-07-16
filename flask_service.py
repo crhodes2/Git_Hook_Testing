@@ -11,45 +11,41 @@ app = Flask(__name__)
 #                  REQUEST METHOD
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['POST'])
 def index():
 
+    # GETTING POST REQUEST
     jsonRequest = request.json
 
-    if request.method == 'POST':
+    #Get a POST Request:: locates the weblink to the object
+    print('Get a POST Request!: \t', request)
 
+    #request.json:: extract the json object from that weblink
+    print('request.json: \t', jsonRequest)
 
-        #Get a POST Request:: locates the weblink to the object
-        print('Get a POST Request!: \t', request)
+    # Manipulate the POST Request received
+    modJsonRequest = jsonRequest
+    print('Pull Request ID (Before Manipulation): \t', modJsonRequest["pull_request"]["id"])
+    modJsonRequest["pull_request"]["id"] = 123456789
+    print('Pull Request ID (After Manipulation): \t', modJsonRequest["pull_request"]["id"])
+    print('request.json: \t', modJsonRequest)
 
-        #request.json:: extract the json object from that weblink
-        print('request.json: \t', jsonRequest)
-
-        # Manipulate the POST Request received
-        modJsonRequest = jsonRequest
-        print('Pull Request ID (Before Manipulation): \t', modJsonRequest["pull_request"]["id"])
-        modJsonRequest["pull_request"]["id"] = 123456789
-        print('Pull Request ID (After Manipulation): \t', modJsonRequest["pull_request"]["id"])
-        print('request.json: \t', modJsonRequest)
-
-
-    #     modJsonRequest[1]["first"] = "Fancy"
+    # modJsonRequest[1]["first"] = "Fancy"
     #     print(modJsonRequest)
+
+    POST_Req = ''.join(map(str, modJsonRequest))
+    return POST_Req
     #
-    #     POST_Req = ''.join(map(str, modJsonRequest))
     #
-    #     # print('form_data: ', request.form.get('api_source_code'))
-    #
-    #     return POST_Req
     #
     # else:
     #     #open the json file to be manipulated
     #     with open("randomApi.txt", "r") as file:
     #         jsonObject = json.load(file)
     #     return json.dumps(jsonObject)
-    return "test"
-
-
+    # return "test"
+#
+#
 @app.route('/anotherAPI', methods=['GET', 'POST'])
 def randomAPI():
     with open("anotherAPI.txt", "r") as file:
