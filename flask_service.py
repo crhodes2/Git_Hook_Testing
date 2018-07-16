@@ -13,16 +13,9 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # # if request.method == 'GET':
-    # #     return "test"
-    # # else:
-    #     #Get a POST Request:: locate the weblink to the object
-    #
-    #
+
     jsonRequest = request.json
-    #
-    #
-    #
+
     if request.method == 'POST':
 
 
@@ -33,15 +26,11 @@ def index():
         print('request.json: \t', jsonRequest)
 
         # Manipulate the POST Request received
-        # print("Manipulate the POST request!: \t", request)
         modJsonRequest = jsonRequest
-        print('Pull Request ID: \t', modJsonRequest["pull_request"]["id"])
-
-
-
-
-
-
+        print('Pull Request ID (Before Manipulation): \t', modJsonRequest["pull_request"]["id"])
+        modJsonRequest["pull_request"]["id"] = 123456789
+        print('Pull Request ID (After Manipulation): \t', modJsonRequest["pull_request"]["id"])
+        print('request.json: \t', modJsonRequest)
 
 
     #     modJsonRequest[1]["first"] = "Fancy"
