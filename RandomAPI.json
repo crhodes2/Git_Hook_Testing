@@ -1,0 +1,29 @@
+[{
+    "first": "Hans",
+    "last": "Gerlach",
+    "email": "azurewolf80@gmail.com",
+    "address": "96238 Else Island",
+    "created": "August 30, 2014",
+    "balance": "$2,301.96"
+}, {
+    "first": "Natalia",
+    "last": "Jacobson",
+    "email": "greysquirrel55@gmail.com",
+    "address": "909 Lafayette Courts",
+    "created": "March 10, 2013",
+    "balance": "$1,720.63"
+}, {
+    "first": "Hailee",
+    "last": "Krajcik",
+    "email": "Hailee.Krajcik@brisa.biz",
+    "address": "401 Beier Turnpike",
+    "created": "June 14, 2015",
+    "balance": "$4,489.67"
+}, {
+    "first": "Trenton",
+    "last": "Jones",
+    "email": "Trenton.Jones@connie.info",
+    "address": "6368 Muller Forge",
+    "created": "January 8, 2016",
+    "balance": "$490.78"
+}]

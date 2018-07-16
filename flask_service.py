@@ -35,9 +35,7 @@ def index():
 
     POST_Req = ''.join(map(str, modJsonRequest))
     return POST_Req
-    #
-    #
-    #
+
     # else:
     #     #open the json file to be manipulated
     #     with open("randomApi.txt", "r") as file:
