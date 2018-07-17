@@ -1,0 +1,6 @@
+{
+    "state" : "failure",
+    "target_url" : "https://www.example.com/",
+    "description" : "This build has failed!",
+    "context" : "continuous-integration/jama"
+}

@@ -1,6 +1,0 @@
-{
-    "state" : "success",
-    "target_url" : "https://www.example.com/",
-    "description" : "successful!",
-    "context" : "continuous-integration/marlen"
-}
