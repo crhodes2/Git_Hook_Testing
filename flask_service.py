@@ -1,54 +1,50 @@
 from flask import Flask, request, render_template
 import os, sys, json, importlib
 import requests
+from requests.auth import HTTPBasicAuth
 app = Flask(__name__)
-
-#import git_http_request
 
 
 #########################################################
 #                   GET AND POST
 #                  REQUEST METHOD
-
+#########################################################
 
 @app.route('/', methods=['POST'])
 def index():
 
-    # GETTING POST REQUEST
-    jsonRequest = request.json
+    # RECEIVE THE POST REQUEST
+    jsonRequest = request.json  # request payload taken straight from the gitHub repository
 
-    #Get a POST Request:: locates the weblink to the object
-    print('Get a POST Request!: \t', request)
+    # baseStatusUrl = jsonRequest["pull_request"]["head"]["repo"]["statuses_url"]
+    # pullRequestId = jsonRequest["pull_request"]["id"]
+    # print('Receive a POST Request from GitHub!: \t', jsonRequest)
+    # print('Pull Request ID: \t', jsonRequest["pull_request"]["id"])
+    # print('Pull Request ID (variable): \t', pullRequestId)
+    # print('any PR statuses url: \t', baseStatusUrl)
 
-    #request.json:: extract the json object from that weblink
-    print('request.json: \t', jsonRequest)
+    payloadBody = {"state":"success", "target_url":"http://example.com/build/status", "description":"build succeeded", "context":"continuous-integration/abigail" }
 
-    # Manipulate the POST Request received
-    modJsonRequest = jsonRequest
-    print('Pull Request ID (Before Manipulation): \t', modJsonRequest["pull_request"]["id"])
-    modJsonRequest["pull_request"]["id"] = 123456789
-    print('Pull Request ID (After Manipulation): \t', modJsonRequest["pull_request"]["id"])
-    print('request.json: \t', modJsonRequest)
+    authentication = HTTPBasicAuth('crhodes2', '18a0c4df0757c68f13767c0568e1bfc66169c512')
 
-    # modJsonRequest[1]["first"] = "Fancy"
-    #     print(modJsonRequest)
+    completeStatusUrl = jsonRequest["pull_request"]["statuses_url"]
 
-    POST_Req = ''.join(map(str, modJsonRequest))
-    return POST_Req
+    responseObject = requests.post(url=completeStatusUrl, json=payloadBody, auth=authentication)
+    print("Response Object ->", responseObject)
 
-    # else:
-    #     #open the json file to be manipulated
-    #     with open("randomApi.txt", "r") as file:
-    #         jsonObject = json.load(file)
-    #     return json.dumps(jsonObject)
-    # return "test"
-#
-#
-@app.route('/anotherAPI', methods=['GET', 'POST'])
+    return "done"
+
+
+@app.route('/responseAPI', methods=['POST'])
 def randomAPI():
-    with open("anotherAPI.txt", "r") as file:
-        jsonObject = json.load(file)
-    return json.dumps(jsonObject)
+    with open("responseAPI_Success.json", "r") as file:
+        s = json.load(file)
+    with open("responseAPI_Failure.json", "r") as file:
+        f = json.load(file)
+    with open("responseAPI_Pending.json", "r") as file:
+        p = json.load(file)
+
+    return json.dumps(s)
 
 #########################################################
 #                 MAIN PROGRAM
