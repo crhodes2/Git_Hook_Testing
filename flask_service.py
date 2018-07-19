@@ -10,12 +10,21 @@ app = Flask(__name__)
 #                  REQUEST METHOD
 #########################################################
 
-@app.route('/', methods=['POST'])
+
+github_auth_key = str(os.environ['GITHUB_AUTH_KEY'])
+authentication = HTTPBasicAuth('crhodes2', github_auth_key)
+
+def buildPending():
+    payloadPending = {"state":"pending", "target_url":"http://www.google.com", "description":"build pending", "context":"continuous-integration/jama" }
+    return payloadPending
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
 
     # RECEIVE THE POST REQUEST
     jsonRequest = request.json  # request payload taken straight from the gitHub repository
 
+    # payloadBody = {"state":"pending", "target_url":"http://www.google.com", "description":"build pending", "context":"continuous-integration/jama" }
     # baseStatusUrl = jsonRequest["pull_request"]["head"]["repo"]["statuses_url"]
     # pullRequestId = jsonRequest["pull_request"]["id"]
     # print('Receive a POST Request from GitHub!: \t', jsonRequest)
@@ -23,20 +32,24 @@ def index():
     # print('Pull Request ID (variable): \t', pullRequestId)
     # print('any PR statuses url: \t', baseStatusUrl)
 
-    payloadBody = {"state":"success", "target_url":"http://example.com/build/status", "description":"build succeeded", "context":"continuous-integration/abigail" }
-
-    authentication = HTTPBasicAuth('crhodes2', '18a0c4df0757c68f13767c0568e1bfc66169c512')
-
     completeStatusUrl = jsonRequest["pull_request"]["statuses_url"]
+    commitNumber = jsonRequest["pull_request"]["commits"]
 
-    responseObject = requests.post(url=completeStatusUrl, json=payloadBody, auth=authentication)
+
+    responseObject = requests.post(url=completeStatusUrl, json=buildPending(), auth=authentication)
+
+    # commitListUrl = requests.get('https://api.github.com/repos/crhodes2/platform-samples/pulls/21/commits', data={'key': 'value'})
+    # ''.join()
+
     print("Response Object ->", responseObject)
+    # print("Response Object ->", commitListUrl)
+    print("List of Commits ->", commitNumber)
+
 
     return "done"
 
-
 @app.route('/responseAPI', methods=['POST'])
-def randomAPI():
+def responseAPI():
     with open("responseAPI_Success.json", "r") as file:
         s = json.load(file)
     with open("responseAPI_Failure.json", "r") as file:
