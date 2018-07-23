@@ -41,8 +41,10 @@ formattedAuth = ', '.join(authentication)
 # # postReq_Info = postReq.text
 # print("POST REQUEST IS --> %s" % postReq.text)
 
+with open('responseAPI_Success.json') as json_file:
+    json_data = json.load(json_file)
 
 headers = {'Authorization' : formattedAuth, 'Accept' : 'application/json', 'Content-Type' : 'application/json'}
-r = requests.post(TO_POST, headers=headers)
+r = requests.post(url=TO_POST, data=json.dumps(json_data), headers=headers)
 
 print("POST REQUEST IS --> %s" % r.text)

@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template
-import os, sys, json, importlib
-import requests
+import os, sys, json, importlib, time, requests, urllib3, urllib.request
 from requests.auth import HTTPBasicAuth
+from threading import Thread
 app = Flask(__name__)
 
 
@@ -13,15 +13,29 @@ app = Flask(__name__)
 
 github_auth_key = str(os.environ['GITHUB_AUTH_KEY'])
 authentication = HTTPBasicAuth('crhodes2', github_auth_key)
+with open("responseAPI_Success.json", "r") as file:
+    success = json.load(file)
+with open("responseAPI_Failure.json", "r") as file:
+    failure = json.load(file)
+with open("responseAPI_Pending.json", "r") as file:
+    pending = json.load(file)
 
 def buildPending():
     payloadPending = {"state":"pending", "target_url":"http://www.google.com", "description":"build pending", "context":"continuous-integration/jama" }
     return payloadPending
 
+def buildSuccess():
+    payloadPending = {"state":"success", "target_url":"http://www.google.com", "description":"build was a success", "context":"continuous-integration/jama" }
+    return payloadPending
+
+def buildFailure():
+    payloadPending = {"state":"pending", "target_url":"http://www.google.com", "description":"build has failed", "context":"continuous-integration/jama" }
+    return payloadPending
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
-    # RECEIVE THE POST REQUEST
+    # RECEIVE THE POST REQUEST FROM GITHUB
     jsonRequest = request.json  # request payload taken straight from the gitHub repository
 
     # payloadBody = {"state":"pending", "target_url":"http://www.google.com", "description":"build pending", "context":"continuous-integration/jama" }
@@ -34,30 +48,37 @@ def index():
 
     completeStatusUrl = jsonRequest["pull_request"]["statuses_url"]
     commitNumber = jsonRequest["pull_request"]["commits"]
+    commitUrl = jsonRequest["pull_request"]["commits_url"]
 
+    listofCommits = requests.get(url=commitUrl)
+    print("# commit links? --> " + str(listofCommits))
 
+    # SEND IN STATUS TO POST REQUEST TO GITHUB AS A PENDING BADGE
     responseObject = requests.post(url=completeStatusUrl, json=buildPending(), auth=authentication)
 
-    # commitListUrl = requests.get('https://api.github.com/repos/crhodes2/platform-samples/pulls/21/commits', data={'key': 'value'})
-    # ''.join()
+    print("Receiving PR from GitHub... ...please wait")
+    time.sleep(5)
+    print("Response Result ->", responseObject)
+    print("Getting Commits Count... ...please wait")
+    time.sleep(5)
+    print("Commits Count in PR: ", commitNumber, " commit(s) found in PR!")
 
-    print("Response Object ->", responseObject)
-    # print("Response Object ->", commitListUrl)
-    print("List of Commits ->", commitNumber)
 
+    if commitNumber % 2 == 0:
+        # SEND IN STATUS TO POST REQUEST TO GITHUB AS A PENDING BADGE
+        evenResponse = requests.post(url=completeStatusUrl, json=buildSuccess(), auth=authentication)
+        print("Response Result -->", evenResponse, "Success!")
+    else:
+        oddResponse = requests.post(url=completeStatusUrl, json=buildFailure(), auth=authentication)
+        print("Response Result -->", oddResponse, "Failure!")
+
+
+    #TODO: EXTRACT JSON FILE FROM THE LIST OF COMMITS API LINK to display all the messsages available
+    # with urllib.request.urlopen(str(listofCommits)) as url:
+    #     data = json.loads(url.read().decode())
+    #     print(data)
 
     return "done"
-
-@app.route('/responseAPI', methods=['POST'])
-def responseAPI():
-    with open("responseAPI_Success.json", "r") as file:
-        s = json.load(file)
-    with open("responseAPI_Failure.json", "r") as file:
-        f = json.load(file)
-    with open("responseAPI_Pending.json", "r") as file:
-        p = json.load(file)
-
-    return json.dumps(s)
 
 #########################################################
 #                 MAIN PROGRAM
