@@ -1,0 +1,6 @@
+{
+    "state" : "pending",
+    "target_url" : "https://www.example.com/",
+    "description" : "This build is currently under pending!",
+    "context" : "continuous-integration/jama"
+}
