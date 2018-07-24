@@ -1,7 +1,6 @@
-from flask import Flask, request, render_template
-import os, sys, json, importlib, time, requests, urllib3, urllib.request
+from flask import Flask, request
+import os, json, time, requests
 from requests.auth import HTTPBasicAuth
-from threading import Thread
 app = Flask(__name__)
 
 
@@ -21,19 +20,21 @@ with open("responseAPI_Pending.json", "r") as file:
     pending = json.load(file)
 
 def buildPending():
-    payloadPending = {"state":"pending", "target_url":"http://www.google.com", "description":"build pending", "context":"continuous-integration/jama" }
+    payloadPending = {"state": "pending", "target_url": "http://www.google.com", "description": "build pending", "context": "continuous-integration/jama"}
     return payloadPending
 
 def buildSuccess():
-    payloadPending = {"state":"success", "target_url":"http://www.google.com", "description":"build was a success", "context":"continuous-integration/jama" }
+    payloadPending = {"state": "success", "target_url": "http://www.google.com", "description": "build was a success", "context": "continuous-integration/jama" }
     return payloadPending
 
 def buildFailure():
-    payloadPending = {"state":"pending", "target_url":"http://www.google.com", "description":"build has failed", "context":"continuous-integration/jama" }
+    payloadPending = {"state": "pending", "target_url": "http://www.google.com", "description": "build has failed", "context": "continuous-integration/jama"}
     return payloadPending
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    if(request.method == 'GET'):
+        return "hello world"
 
     # RECEIVE THE POST REQUEST FROM GITHUB
     jsonRequest = request.json  # request payload taken straight from the gitHub repository
